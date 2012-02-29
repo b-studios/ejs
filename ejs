@@ -1,0 +1,7 @@
+#!/usr/local/bin/node
+if(process.argv[2] === undefined)
+  throw "Please specify script to execute as first parameter";
+
+require('./lib/ejs');
+var path = require('path');
+require(path.resolve(process.cwd(), process.argv[2]));

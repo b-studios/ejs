@@ -1,0 +1,146 @@
+// To play with the example grammars simply require OMeta/JS and this grammar-file:
+//     require('./lib/ometa');
+//     var g = require('./examples/ometa_examples.ojs'); 
+//
+// Afterwards the examples can be used like:
+//     g.ID.matchAll('foobar', 'identifier');
+
+// Figure 5.1
+// ----------
+// Sample grammar which can be used to match JavaScript-identifiers
+//
+// Example Usage:
+//     ID.matchAll('foobar', 'identifier'); => Success
+//     ID.matchAll('123bar', 'identifier'); => Failure
+ometa ID {
+  identifier = nameFirst namePart*,
+  nameFirst  = letter | '$' | '_',   
+  namePart   = nameFirst | digit  
+}
+
+
+// Figure 5.3
+// ----------
+// A sample grammar to match decimal numbers, starting with rule number
+//
+// Example Usage:
+//     Numbers.matchAll('123.45', 'number');   => Success
+//     Numbers.matchAll('123.45e2', 'number'); => Success
+ometa Numbers {
+  number     = decimal,
+  decimal    = '-'? decimalInt+ ('.' digit+)? expPart?
+             | '-'? ('.' digit+) expPart?,
+  decimalInt = '0' | (~'0' digit) digit*,   
+  expPart    = ('e' | 'E') ('+' | '-')? digit+  
+}
+
+
+// Figure 5.4
+// ----------
+// OMeta/JS grammar to convert prefix to infix notation
+//
+// Example Usage:
+//     PreToInfix.match(['+', 5, ['-', 3, 8]], 'list');
+//     => [5, '+', [3, '-', 8]]
+ometa PreToInfix {
+  list     = [operator:op content:first content:second] -> [first, op, second],
+  content  = list | number,
+  operator = '+' | '-' | '*' | '/'
+}
+
+
+// Figure 5.5
+// ----------
+// A grammar to match numbers with alternating even and odd digits
+//
+// Example Usage:
+//     EvenOdd.matchAll("814","list"); => 814
+function even(digit) {
+  return parseInt(digit) % 2 === 0;
+}
+ometa EvenOdd {
+  even   = digit:d ?even(d),
+  odd    = digit:d ?( !even(d) ),
+  number = <(even odd)+ even?
+           | even
+           >:n -> parseInt(n)
+}
+
+
+// Figure 5.6
+// ----------
+// A grammar to match decimals, using semantic expressions, continuation of figure 5.3
+//
+// Example Usage:
+//     NumbersCont.matchAll('123.45', 'number');   => 123.45
+//     NumbersCont.matchAll('123.45e2', 'number'); => 12345
+ometa NumbersCont {
+  number     = decimal,
+  decimal    = <'-'? decimalInt+ ('.' digit+)? expPart?>:n -> parseFloat(n)
+             | <'-'? ('.' digit+) expPart?>:n              -> parseFloat(n),
+  decimalInt = '0' | (~'0' digit) digit*,   
+  expPart    = ('e' | 'E') ('+' | '-')? digit+
+}
+
+
+// Figure 5.7
+// ----------
+// Grammar using parametrized rules, continuation of figure 5.5
+//
+// Example Usage:
+//     EvenOddCont.matchAll("814","list"); => 814
+ometa EvenOddCont {
+  even   :yes = digit:d ?(yes === even(digit)),
+  number      = <(even(true) even(false))+ even(true)?
+                | even(true)
+                >:n -> parseInt(n)
+}
+
+
+// Figure 5.8
+// ----------
+// Lexical analysis inside a parsing-grammar
+//
+// Example Usage:
+//     Lisp.matchAll("(foo bar)","list")
+//     => { type: 'List', 
+//          content: [ { type: 'Id', value: 'foo' }, { type: 'Id', value: 'bar' } ] }
+ometa Lisp {
+  // Lexer
+  identifier = <letter+>:id      -> { type: "Id", value: id },
+  number     = <digit+>:num      -> { type: "Number", value: parseInt(num) },  
+  punctuator = '(' | ')' |'.' | ',',
+
+  token :tt  = spaces ( punctuator:t             ?(t == tt)      -> t
+                      | (identifier | number):t  ?(t.type == tt) -> t
+                      ),
+
+  // Parser
+  list       = token("(") (atom | list)+:cs token(")") -> { type: "List", content: cs },
+  atom       = token("Id") | token("Number")  
+}
+
+
+// Figure 5.11
+// -----------
+// Example Usage:
+//     HexNumbers.matchAll("0x45678","number")
+//     => 284280
+ometa HexNumbers <: NumbersCont {
+  range :from :to = char:x ?(from <= x && x <= to)             -> x,
+  hexDigit        = digit | range('a', 'f') | range('A', 'F'),    
+  hex             = ``0x'' <hexDigit+>:ds                      -> parseInt(ds, 16),
+  number          = hex | ^number
+}
+
+
+module.exports = {
+  ID:          ID,
+  Numbers:     Numbers,
+  PreToInfix:  PreToInfix,
+  EvenOdd:     EvenOdd,
+  HexNumbers:  HexNumbers,
+  NumbersCont: NumbersCont,
+  EvenOddCont: EvenOddCont,
+  Lisp:        Lisp
+}

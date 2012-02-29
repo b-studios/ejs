@@ -1,0 +1,298 @@
+$default-fonts: Arial, sans-serif;
+$font-size: 10pt;
+
+/* Global Colors */
+$string: hsl(100,80%,40%);
+$literal: hsl(240,60%,70%);;
+
+/* Header-colors */
+$button-color-from: #88B5E2;
+$button-color-to: darken($button-color-from, 15%); /*#4096ee;*/
+
+/* Dimensions */
+$pagesize: 100%;
+$box-spacing: 12px;
+$radius: 6px;
+$element-margin: 1.33em;
+
+@import 'resets';
+@import 'print';
+@import 'helpers';
+
+@mixin page-center() {
+  @include center;
+  max-width: $pagesize;
+}
+
+button {  
+  @include gradient(#f2f2f2, #efefef, 0%, 100%);
+  @include double-border(1px, rgba(255,255,255,0.8), rgba(0,0,0,0.1));
+  text-decoration: none;
+  cursor: default;
+
+  color: #666;
+  font-weight: bold;
+
+  padding: 0.5em 1em;
+  margin-right: 0.5em;
+  border-radius: 3px;
+  text-shadow: 1px 1px #fff;
+}
+
+button:hover {
+  @include gradient(#eeeeee, #e4e4e4, 0%, 100%);  
+  color: #666;
+}
+
+
+html, body {
+  background: url('../images/background.png') left top;
+  height: 100%;
+}
+
+
+$space: 40px;
+header {
+  @include gradient(#454545, #2a2a2a, 0px, $space);
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  color: #999;
+  border: 1px solid #ccc;
+  border-top: none;
+  height: $space;
+  box-shadow: 1px 0px 6px rgba(0,0,0,0.2);
+
+  h1 {
+    @include float(left);
+    padding: 0 1em;
+    line-height: $space;
+    font-family: 'Share', serif;
+    font-weight: normal;
+    font-size: 16pt;
+  }
+
+  nav {
+    @include float(right);
+    text-align: right;
+    
+    a {
+      @include double-border(1px, #333, #555, left);
+      line-height: $space;
+      display: table-cell;
+      color: #aaa;
+      padding: 0 1em;
+      margin: 0;
+      text-decoration: none;
+      text-shadow: 1px 1px 2px #000;
+    }    
+
+    a:hover {
+      @include gradient(#555, #333, 0px, $space);
+      color: #efefef;
+    }
+  }
+}
+
+div#wrapper {
+  @include page-center;
+  @include box-sizing(border-box);
+  padding-top: $space;
+  height: 100%;
+  border-left:  1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+
+
+
+$topheight: 60%;
+$bottomheight: 32%;
+
+@mixin console() {   
+  font-family: monospace;
+  white-space: pre-wrap;
+}
+
+@mixin field() {
+  @include border-radius($radius);  
+  overflow-y: auto;
+  font-size: 12pt;
+  display: block;
+  float: left;
+  border: 1px solid rgba(0,0,0,0.2);
+  margin: 0;
+  padding: 0;
+}
+
+@mixin large-field() {  
+  @include box-sizing(border-box);
+  @include field;
+  position: relative;  
+  overflow: hidden;
+  height: $topheight;
+  width: 47.5%;
+  margin: 1%;
+  padding: 0.5em;
+}
+
+div#before-compilation {
+
+  @include large-field;
+  background: rgba(255,255,255,0.8);
+  
+  textarea#input {    
+    @include console;
+    @include scrollbars;
+    resize: none;    
+    border: 0;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    display: block;
+
+    &:focus { outline: none; }
+  }
+  &.focus {
+    box-shadow: 0 0 8px 2px rgba(60,60,140,0.3);
+  }
+}
+
+div#after-compilation {
+  @include large-field; 
+  float: right;
+  background: rgba(240,240,240, 0.8);
+
+  > #treeview, > #jscode {
+    @include scrollbars;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    display: block;
+    height: 100%;
+
+    &.hidden {  display: none; }
+  }
+
+  output#jscode {
+    @include console;  
+  }
+    
+  ul#treeview {
+
+    .string { color: $string; }
+    .number { color: $literal; }
+
+    ul {
+      border-left: 1px dotted #d0d0d0;
+      padding: 0 0 0 1em;
+      margin: 0;
+    }
+
+    li { 
+      display: block;
+      margin: 0.5em;
+      padding: 0;
+
+      &.collapsed > ul.children { display: none; }
+      &.collapsed > dl.attributes { opacity: 0.4; }
+      .type { cursor: pointer; font-weight: bold; }
+
+      dl.attributes {
+        display: inline-block;
+
+        background: rgba(228,228,228,0.6);
+        border: 1px solid rgba(228,228,228,0.8);
+        padding: 3px;
+        border-radius: 4px;
+        margin: 0 0 0 5px;
+
+        dt {
+          color: #888;
+          display: inline;
+          margin: 0 2px 0 6px;       
+          &:first-child { margin-left: 2px; }
+          &::after { content: ':'; }
+        }
+        dd {
+          display: inline;
+          margin: 0 2px 0 2px;
+        }
+      }
+    }
+  }
+
+  ul.switch {
+    @include reset-list();
+    @include absolute(0.5em, 1.5em);
+
+    li {
+      @include float(left);
+      margin-left: 0.5em;
+      padding:0;
+      border: 1px solid transparent;      
+      border-radius: 4px;
+
+      a {
+        display: block; 
+        width: 32px;
+        height: 32px;
+        background: url('../images/icons.png') left center no-repeat;
+      }
+      &.code a { background-position: -32px center; }
+
+      &.active {
+        border-color: rgba(0,0,0,0.2);
+        background: rgba(0,0,0,0.05);
+      }
+      &:hover {
+        border-color: rgba(0,0,0,0.1);
+        background: rgba(0,0,0,0.025);
+      }
+    }
+  }
+
+}
+
+div#after-evaluation {
+
+  @include box-sizing(border-box);
+  height: $bottomheight;
+  padding-right: 13em;
+  clear: both;
+  margin: 0 1%;
+
+  ul#console {
+    @include field;
+    @include console;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.8);
+    color: #ededed;
+    
+    > li {
+      padding: 0.2em 1em;
+      border-bottom: 1px solid rgba(60,60,60,0.8);
+
+      .lit { color: lighten($literal, 10%) }
+      .str { color: lighten($string, 40%) }
+      .pun { font-weight: bold; }
+    }
+
+    > li.error {
+      background: #590404;
+
+      .lit { color: #FFEDA3; }
+      .str { color: #FFEDED; }
+    }
+
+  }
+  
+  button#eval {
+    position: absolute;
+    right: 1%;
+    width: 10em;
+    padding: 1em;
+  }
+}

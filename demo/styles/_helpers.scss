@@ -1,0 +1,110 @@
+$golden_ratio: 1.618;
+
+@mixin transition($property, $time, $transition: ease-in-out) {
+	-webkit-transition: $property $time $transition;
+	-moz-transition: $property $time $transition;
+	-o-transition: $property $time $transition;
+	-ms-transition: $property $time $transition;
+	transition: $property $time $transition;
+}
+
+/* Kudos to http://www.colorzilla.com/gradient-editor/ */
+@mixin gradient($from, $to, $from_pos: 0%, $to_pos: 100%, $fallback: $to) {
+  background: $fallback; /* Old browsers */
+  background: -moz-linear-gradient(top, $from $from_pos, $to $to_pos); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop($from_pos, $from), color-stop($to_pos, $to)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, $from $from_pos,$to $to_pos); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, $from $from_pos,$to $to_pos); /* Opera11.10+ */
+  background: -ms-linear-gradient(top, $from $from_pos,$to $to_pos); /* IE10+ */
+  background: linear-gradient(top, $from $from_pos,$to $to_pos); /* W3C */
+}
+
+@mixin gradient-horizontal($from, $to, $from_pos: 0%, $to_pos: 100%) {
+  background: $from; /* Old browsers */
+  background: -moz-linear-gradient(left, $from $from_pos, $to $to_pos); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop($from_pos, $from), color-stop($to_pos, $to)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left, $from $from_pos,$to $to_pos); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left, $from $from_pos,$to $to_pos); /* Opera11.10+ */
+  background: -ms-linear-gradient(left, $from $from_pos,$to $to_pos); /* IE10+ */
+  background: linear-gradient(left, $from $from_pos,$to $to_pos); /* W3C */
+}
+
+/* inspired by http://docs.sencha.com/ext-js/4-0/ */
+@mixin scrollbars() {
+  &::-webkit-scrollbar { width: 7px; height: 9px; }
+  &::-webkit-scrollbar-button:start:decrement, 
+  &::-webkit-scrollbar-button:end:increment { display: block; height: 0; background-color: transparent; }
+  &::-webkit-scrollbar-track-piece { -webkit-border-radius: 0; -webkit-border-bottom-right-radius: 4px; -webkit-border-bottom-left-radius: 4px; }
+  &::-webkit-scrollbar-thumb:vertical { height: 50px; background-color: rgba(0, 0, 0, 0.15); -webkit-border-radius: 4px; }
+  &::-webkit-scrollbar-thumb:horizontal { width: 50px; background-color: rgba(0, 0, 0, 0.15); -webkit-border-radius: 4px; }
+}
+
+@mixin columns($count: 2, $gap: 20px) {
+  -moz-column-count: $count;
+	-moz-column-gap: $gap;
+	-webkit-column-count: $count;
+	-webkit-column-gap: $gap;
+	column-count: $count;
+	column-gap: $gap;
+}
+
+@mixin center() {
+  display: block;
+  margin: 0 auto;
+}
+
+@mixin clearfix() {
+  display: block;
+  overflow: hidden;
+}
+
+@mixin reset-list() {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@mixin box-sizing($val) {
+  display: block;  
+  -moz-box-sizing: $val;
+  box-sizing: $val;
+}
+
+@mixin double-border($size, $color1, $color2, $position:all) {
+  @if $position == all {
+    box-shadow: inset 0px 0px 0px $size $color1;
+    border: $size solid $color2;
+  } @else {
+    border-#{$position}: $size solid $color2;
+  
+    @if $position == bottom {
+      box-shadow: inset 0 $size*-1 0 $color1;
+    }
+    @if $position == top {
+      box-shadow: inset 0 $size 0 $color1;
+    }
+    @if $position == left {
+      box-shadow: inset $size 0 0 $color1;
+    }
+    @if $position == right {
+      box-shadow: inset $size*-1 0 0 $color1;
+    }
+  }
+}
+
+@mixin border-radius($radius) {
+  -moz-border-radius: $radius; /* Firefox */
+  -webkit-border-radius: $radius; /* Safari, Chrome */
+  border-radius: $radius; /* CSS3 */  
+}
+
+@mixin float($direction) {
+  display: block;
+  float: $direction;
+}
+
+@mixin absolute($top: auto, $right: auto, $bottom: auto, $left: auto) {
+  display: block;
+  position: absolute;
+  top: $top; right: $right; bottom: $bottom; left: $left;
+}
