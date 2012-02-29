@@ -92,9 +92,9 @@ Example Extensions
 ==================
 The implementation of the example extensions is divided into three parts:
 
-1. The parsing frontend (`./lib/ejs/grammars/ejs_parser.ojs`)
-2. The node-types (`./lib/ejs/nodes.js`)
-3. The translator (`./lib/ejs/grammars/ejs_translator.ojs`)
+1. The parsing frontend ([`./lib/ejs/grammars/ejs_parser.ojs`](https://github.com/b-studios/ejs/blob/master/lib/ejs/grammars/ejs_parser.ojs))
+2. The node-types ([`./lib/ejs/nodes.js`](https://github.com/b-studios/ejs/blob/master/lib/ejs/nodes.js))
+3. The translator ([`./lib/ejs/grammars/ejs_translator.ojs`](https://github.com/b-studios/ejs/blob/master/lib/ejs/grammars/ejs_translator.ojs))
 
 To name just a few extensions:
 
