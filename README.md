@@ -104,10 +104,12 @@ Scope Forcing Operator
 Since JavaScript only supports function-scoping the force scoping operator creates an
 anonymous function and immediately executes it:
 
-*EJS*
+**EJS**
+
     !{ var foo = 4 }
 
-*JavaScript*
+**JavaScript**
+
     (function() { var foo = 4 })()
 
 Of course, this can be used for revealing modules:
@@ -121,10 +123,12 @@ String Substitution
 -------------------
 This one is adopted from Ruby to interpolate expressions into strings:
 
-*EJS*
+**EJS**
+
     var foo = "Hello #{name}"
 
 *JavaScript*
+
     var foo = ["Hello ", name].join('');
 
 
@@ -133,18 +137,22 @@ Lambda Expressions
 Since the function keyword can be annoying some time, a shorter (again Ruby-like) syntax
 is introduced:
 
-*EJS*
+**EJS**
+
     var foo = {|a,b| a + b }
 
-*JavaScript*
+**JavaScript**
+
     var foo = function(a, b) { return a + b }
 
 Also a new way to call functions has been added:
 
-*EJS*
+**EJS**
+
     $.getJSON("something.php") {|data| console.log(data) }
 
-*JavaScript*
+**JavaScript**
+
     $.getJSON("something.php", function(data) { console.log(data) });
 
 
@@ -153,13 +161,15 @@ Classes
 There is a specialty about classes: A runtime-mapping is performed to allow a late binding
 of the desired class-implementation:
 
-*EJS*
+**EJS**
+
     class Person {
       name: "Anonymous"
       say_hello: {|| "Hello my name is #{this.name}" }
     }
 
-*JavaScript*
+**JavaScript**
+
     Object.define_class("Person", {
       parent_name: undefined,
       get_parent: function() {
