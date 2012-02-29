@@ -4,7 +4,7 @@ This software is a playground to develop compiled JavaScript language extensions
 It is based on the [OMeta/JS parser generator](https://github.com/alexwarth/ometa-js).
 If you have any questions, dont hestitate to contact me.
 
-You can try the new syntax at the [online demonstration](https://b-studios.github.com/ejs).
+You can try the new syntax at the [online demonstration](http://b-studios.github.com/ejs).
 
 Usage
 -----
