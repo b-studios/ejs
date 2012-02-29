@@ -201,6 +201,7 @@ For the Compilation Framework
 - [OMeta/JS](https://github.com/alexwarth/ometa-js) by Alessandro Warth (parser Generator and basic foundation for `ES5Parser` and `ES5Translator`)
 - [Node.js](http://nodejs.org/) by Joyent, Inc (runtime environment)
 - [es-lab](http://code.google.com/p/es-lab) by Tom Van Cutsem and others  (unicode-categories)
+- [esprima](http://www.esprima.org/) by Ariya Hidayat (used some tests)
 
 For the Demo-Page
 -----------------
