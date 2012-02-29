@@ -127,7 +127,7 @@ This one is adopted from Ruby to interpolate expressions into strings:
 
     var foo = "Hello #{name}"
 
-*JavaScript*
+**JavaScript**
 
     var foo = ["Hello ", name].join('');
 
