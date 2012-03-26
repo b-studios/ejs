@@ -1,0 +1,21 @@
+{ 
+  "name": "ejs",
+  "version" : "0.1.0",
+
+  "descriptions": "Scaffold for JavaScript Language Extension",
+
+  "contributors": [{
+    "name": "Jonathan Brachthäuser",
+    "email": "jonathan@b-studios.de",
+    "web": "http://www.b-studios.de" 
+  }],
+
+  "repositories": [{
+    "type": "git",
+    "url": "https://github.com/b-studios/ejs.git" 
+   }],
+
+   "engines": ["node"],
+
+  "main" : "./index.js" 
+}
