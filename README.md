@@ -2,7 +2,7 @@ EJS - Enhanced JS / Example JS
 ==============================
 This software is a playground to develop compiled JavaScript language extensions. 
 It is based on the [OMeta/JS parser generator](https://github.com/alexwarth/ometa-js).
-If you have any questions, dont hestitate to contact me.
+If you have any questions, don't hesitate to contact me.
 
 You can try the new syntax at the [online demonstration](http://b-studios.github.com/ejs).
 
@@ -28,7 +28,7 @@ The file will automatically be compiled to JavaScript and the grammar object is 
 ### ES5 Parser and Translator #
 The ES5Parser can be used to analyze a piece of code.
 
-    // @file anaylzer.js
+    // @file analyzer.js
     var es5 = require('./lib/es5');
     var tree = es5.parse('var foo = 4');
 
